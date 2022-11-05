@@ -1,0 +1,28 @@
+/* .ubahposisi {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+} */
+
+.blokicon {
+    display: flex;
+    justify-content: left;
+}
+
+.bloktwitter,
+.blokinstagram {
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    max-width: 35px;
+    padding: 4px;
+    margin-right: 1%;
+}
+
+.blokinstagram:hover,
+.bloktwitter:hover {
+    background-color: #00A9B7;
+    transition: all .5s ease-in-out;
+}

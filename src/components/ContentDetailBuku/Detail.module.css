@@ -1,0 +1,89 @@
+.blokgambar {
+    text-align: center;
+}
+
+.bloktitle {
+    padding: 0px 0px 20px 0px;
+    text-align: center;
+}
+
+.bloksampul {
+    float: right;
+}
+
+.bloksinopsis {
+    padding: 0px 0px 20px 0px;
+}
+
+.blokdetailbuku {
+    padding-top: 4em;
+}
+
+.bloktulissinopsis {
+    text-align: justify;
+}
+
+.blokrating {
+    display: flex;
+    padding-top: 1.5em;
+}
+
+.rating {
+    padding-top: 4px;
+    padding-right: 3em;
+    color: #32B9C4;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.startotal {
+    padding-left: 30px;
+    transform: scale(1.5);
+}
+
+.userreview {
+    padding-left: 7em;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.plusreview {
+    float: right;
+    padding-right: 8em;
+    color: #32B9C4;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.download {
+    padding-top: 1.5em;
+    display: flex;
+
+}
+
+.blokdownload {
+    /* position: absolute; */
+    background-color: #00A9B7;
+    padding: 5px 50px 5px 50px;
+    color: #ffffff;
+    margin-right: 1em;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.blokdownload:hover {
+    background-color: #ffffff;
+    color: #00A9B7;
+    border: 1px solid #00A9B7;
+    transition: all .5s ease-in-out;
+}
+
+.blokdownloaded {
+    font-size: small;
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+}
+
+.star {
+    transform: scale(1.2);
+}

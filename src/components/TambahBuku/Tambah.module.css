@@ -1,0 +1,35 @@
+.tambahbuku {
+    padding: 4% 50% 0% 12%;
+}
+
+.tambahbuku div {
+    padding: 1%;
+}
+
+.blokbukusatu {
+    margin-top: 20px;
+}
+
+.blokbukusatu,
+.blokbukudua,
+.blokbukutiga {
+    display: flex;
+}
+
+.blokbukusatu input,
+.blokbukudua input,
+.blokbukutiga input {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+}
+
+.blokbukuempat textarea {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+}

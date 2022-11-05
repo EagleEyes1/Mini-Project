@@ -1,0 +1,22 @@
+.sampulsatu {
+    padding: 50px;
+}
+
+.kelompokdua {
+    padding-bottom: 10vh;
+}
+
+.previousicon {
+    width: 50px;
+}
+
+.nexticon {
+    margin-left: 20px;
+    width: 50px;
+}
+
+.allicon {
+    display: flex;
+    padding-right: 50px;
+    float: right;
+}
