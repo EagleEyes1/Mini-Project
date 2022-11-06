@@ -3,13 +3,12 @@ import { useState } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useNavigate, redirect, Link, useParams } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import styles from "../Navbar/Navbar.module.css"
-import ContentListBuku from '../ContentListBuku/ContentListBuku';
-import useGetAllBooks from '../../hooks/useGetAllBooks';
 import useSearchBooks from '../../hooks/useSearchBooks';
 import Table from 'react-bootstrap/Table';
-
+import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
+import Image from 'react-bootstrap/Image'
 
 const Navbar = (props) => {
     const [kondisi, setKondisi] = useState(false)
@@ -17,12 +16,6 @@ const Navbar = (props) => {
     const [kondisiSearch, setKondisiSearch] = useState(false)
 
     const { searchBook, searchData, searchLoading, searchError } = useSearchBooks()
-
-    // const { id } = useParams()
-
-    console.log(searchData)
-
-    // console.log(searchData.buku[0].id_buku)
 
     const [searchValue, setSearchValue] = useState("")
 
@@ -35,6 +28,7 @@ const Navbar = (props) => {
             }
         })
     }
+
 
     const handleChange = (e) => {
         setSearchValue(
@@ -72,21 +66,26 @@ const Navbar = (props) => {
     let viewMode = {};
     let searchMode = {};
 
+    if (searchError) {
+        console.log(searchError)
+        return null
+    }
+
     return (
         <>
             <Container fluid className={styles.navbar}>
                 <Row className={styles.baris}>
-                    <Col xs={1} className='ps-4'>
+                    <Col lg={1} sm={2} className='ps-4'>
                         <div onClick={toHome} className={styles.back1}>
                             <img src={require("../../assets/home.png")} alt="box" style={{ width: "100%", height: "auto" }} />
                         </div>
                     </Col>
-                    <Col xs={1}>
+                    <Col lg={1} sm={2}>
                         <div onClick={toFavorites} className={styles.back2}>
                             <img src={require("../../assets/heart.png")} alt="box" style={{ width: "100%", height: "auto" }} />
                         </div>
                     </Col>
-                    <Col xs={8} className={styles.kolomsearch}>
+                    <Col lg={8} sm={5} className={styles.kolomsearch}>
                         <div className={styles.back3}>
                             <div onClick={handleSearch} style={searchMode}>
                                 <img src={require("../../assets/search.png")} alt="box" style={{ width: "30px", height: "auto" }} />
@@ -101,7 +100,7 @@ const Navbar = (props) => {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={2}>
+                    <Col lg={2} sm={3}>
                         <div onMouseEnter={handleBukaAccount} onMouseLeave={handleTutupAccount} style={viewMode}>
                             <div className={styles.back4}>
                                 <img src={require("../../assets/account.png")} alt="box" style={{ width: "100%", height: "auto" }} />
@@ -111,8 +110,10 @@ const Navbar = (props) => {
                 </Row>
             </Container>
             <Container fluid>
-                <Row>
-                    <Col xs={12}>
+                <Row style={{
+                    justifyContent: "right"
+                }}>
+                    <Col lg={4} sm={1}>
                         <div className={`${styles.detail} ${!kondisi ? styles.hidden : ''}`} onMouseLeave={handleTutupAccount} onMouseEnter={handleBukaAccount}>
                             {/* <div onClick={handleTutupAccount} style={openMode} className={styles.back4}>
                                 <img src={require("../../assets/account.png")} alt="box" style={{ width: "100%", height: "auto" }} />
@@ -120,7 +121,7 @@ const Navbar = (props) => {
                             <div className={styles.accdetail}>
                                 <div onClick={toTambah} className={styles.tambahbuku}>
                                     <div className={styles.iconbuku}>
-                                        <img src={require("../../assets/book.png")} alt="box" style={{ width: "100%", height: "auto" }} />
+                                        <Image src={require("../../assets/book.png")} alt="box" fluid />
                                     </div>
                                     <div style={{ color: "#ffffff", fontSize: "18px", paddingLeft: "10px" }}>
                                         TAMBAHKAN BUKU
@@ -152,14 +153,18 @@ const Navbar = (props) => {
                     }}>
                         <div className={`${styles.detail} ${!kondisiSearch ? styles.hidden : ''}`} onMouseEnter={handleBukaSearch}>
                             <Table className={styles.table} onMouseLeave={handleTutupSearch}>
-                                <tbody style={{
-                                    padding: "7%",
-                                    alignItems: "center",
-                                    borderRadius: "10px",
-                                }}>
-                                    {searchData?.buku.map((item, index) => {
-                                        return <tr
+                                {searchData?.buku.map((item, index) => {
+                                    return <tbody style={{
+                                        width: "100%"
+                                    }}>
+                                        <Link to={`/detailbuku/${item.id_buku}`} style={{
+                                            height: "100%",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                        }} onClick={handleTutupSearch}><tr
                                             style={{
+
                                                 padding: "7%",
                                                 backgroundColor: "#00A9B7",
                                                 borderRadius: "10px",
@@ -168,29 +173,29 @@ const Navbar = (props) => {
                                                 color: "#ffffff",
 
                                             }}>
-                                            <td style={{
-                                                fontSize: "larger",
-                                                textAlign: "center",
-                                                fontWeight: "bolder"
-                                            }}>
-                                                {index + 1}
-                                            </td>
-                                            <td style={{
-                                                width: "70px"
-                                            }}>
-                                                <img src={item.sampul_buku} alt="box" style={{ width: "100%", height: "auto" }} />
-                                            </td>
-                                            <td style={{
-                                                fontSize: "larger",
+                                                <td style={{
+                                                    fontSize: "larger",
+                                                    textAlign: "center",
+                                                    fontWeight: "bolder"
+                                                }}>
+                                                    {index + 1}
+                                                </td>
+                                                <td style={{
+                                                    width: "70px"
+                                                }}>
+                                                    <img src={item.sampul_buku} alt="box" style={{ width: "100%", height: "auto" }} />
+                                                </td>
+                                                <td style={{
+                                                    fontSize: "larger",
 
-                                                fontWeight: "bolder"
-                                            }}>
-                                                {item.judul_buku}
-                                            </td>
-                                        </tr>
-
-                                    })}
-                                </tbody>
+                                                    fontWeight: "bolder"
+                                                }}>
+                                                    {item.judul_buku}
+                                                </td>
+                                            </tr>
+                                        </Link>
+                                    </tbody>
+                                })}
                             </Table>
                         </div>
                     </Col>

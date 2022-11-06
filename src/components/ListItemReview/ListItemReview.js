@@ -5,33 +5,49 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Rate } from 'antd';
-import 'antd/dist/antd.css';
 import styles from "../ListItemReview/ListReview.module.css"
-import { useParams } from 'react-router-dom';
 import useUpdateReview from '../../hooks/useUpdateReview';
+import useDeleteReview from '../../hooks/useDeleteReview';
+import LoadingDetailSvg from '../../assets/LoadingDetailSvg'
 
 const ListItemReview = (props) => {
-    const [state, setState] = useState({
-        id_review: "",
-        hasil_review: "",
-        rating: ""
-    })
+    const { id_review, nama_reviewer, hasil_review, rating } = props.data
 
-    const { nama_reviewer, hasil_review, rating } = props.data
+    const [state, setState] = useState({
+        id_review: id_review,
+        hasil_review: hasil_review,
+        rating: rating,
+    })
 
     const [editShow, setEditShow] = useState(false);
 
     const handleEditClose = () => setEditShow(false);
     const handleEditShow = () => setEditShow(true);
 
-
     const { updateOldReview, updateLoading, updateError } = useUpdateReview()
 
+    const { deleteLoading, deleteReview } = useDeleteReview()
 
-    const onChange = (e) => {
+    const deleteOldReview = (idx) => {
+        deleteReview({
+            variables: {
+                id_review: idx,
+            }
+        })
+    }
+
+    const onChangeReview = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
+        })
+    }
+
+    const handleChange = (value) => {
+        console.log(value)
+        setState({
+            ...state,
+            rating: value
         })
     }
 
@@ -43,28 +59,22 @@ const ListItemReview = (props) => {
                 rating: state.rating,
             }
         })
+        setEditShow(false)
     }
 
-    // const handleSubmit = (e) => {
-    //     if (state.hasil_review && state.rating) {
-    //         const newData = {
-    //             hasil_review: state.hasil_review,
-    //             rating: state.rating,
-    //         }
-    //         addReview(newData)
-    //         setState({
-    //             hasil_review: "",
-    //             rating: ""
-    //         })
-    //     } else {
-    //         alert("Review Belum Diisi")
-    //     }
-    // }
+    if (updateLoading || deleteLoading) {
+        return <LoadingDetailSvg />
+    }
+
+    if (updateError) {
+        console.log(updateError)
+        return null
+    }
 
     return (
         <>
             <Row style={{ padding: "2%" }}>
-                <Col xs={12}>
+                <Col lg={12} sm={12}>
                     <div className={styles.hasilreview}>
                         <div className={styles.reviewicon}>
                             <div onClick={handleEditShow} className={styles.iconedit}>
@@ -75,7 +85,7 @@ const ListItemReview = (props) => {
                                         height: "auto",
                                     }} />
                             </div>
-                            <div className={styles.icondelete}>
+                            <div onClick={() => deleteOldReview(id_review)} className={styles.icondelete}>
                                 <img src={require("../../assets/delete.png")}
                                     alt="box"
                                     style={{
@@ -126,20 +136,22 @@ const ListItemReview = (props) => {
                         Rating
                         <Rate
                             className={styles.star}
-                            name='hasilrating'
+                            name='rating'
+                            onChange={handleChange}
                             allowHalf
-                            defaultValue={rating}
+                            defaultValue={state.rating}
                             style={{ paddingBottom: "20px", paddingLeft: "25px" }} />
                     </div>
                     <Form.Control
-                        style={{ color: "#ffffff", backgroundColor: "#32B9C4", height: "120px" }}
+                        style={{ padding: "2em 0em 0em 1em", color: "#ffffff", backgroundColor: "#32B9C4", height: "120px" }}
                         as="textarea"
-                        name="hasil_review"
+                        onChange={onChangeReview}
+                        name='hasil_review'
                         value={state.hasil_review}
-                        placeholder="Write Your Review Here" />
+                        placeholder={state.hasil_review} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={updateReview} variant="primary">Submit</Button>
+                    <Button onClick={updateReview} variant="info">Submit</Button>
                     <Button onClick={handleEditClose}>Tutup</Button>
                 </Modal.Footer>
             </Modal>

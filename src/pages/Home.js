@@ -9,6 +9,8 @@ import useGetAllBooks from '../hooks/useGetAllBooks'
 const Home = () => {
     const { booksData, booksLoading, booksError } = useGetAllBooks()
 
+    // console.log(booksData)
+
     if (booksLoading) {
         return <LoadingSvg />
     }
@@ -18,41 +20,7 @@ const Home = () => {
         return null
     }
 
-    // const [books, setBooks] = useState(booksData?.buku)
 
-    // const filterBooks = searchValue => {
-    //     if (searchValue === "") {
-    //         return booksData?.buku[0]
-    //     }
-    //     return booksData?.buku.filter(books =>
-    //         books.judul_buku.toLowerCase().includes(searchValue.toLowerCase())
-    //     )
-    // }
-
-    // const filteredBooks = booksData?.buku.filter(bukus => {
-    //     if (searchValue === "") {
-    //         return bukus;
-    //     } else if (bukus.judul_buku.toLowerCase().includes(searchValue.toLowerCase())) {
-    //         return bukus;
-    //     }
-    // })
-
-    // {booksData?.buku.filter(bukus => {
-    //     if (search === "") {
-    //         return bukus;
-    //     } else if (bukus.judul_buku.toLowerCase().includes(search.toLowerCase())) {
-    //         return bukus; 
-    //     }})}
-
-
-    // useEffect(() => {
-    //     const filteredBooks = filterBooks(searchValue)
-    //     setBooks(filteredBooks)
-    // }, [searchValue])
-
-    // callback = {(searchValue) => setSearchValue(searchValue)}
-
-    // data={filteredBooks} 
     return (
         <div>
             <Navbar />

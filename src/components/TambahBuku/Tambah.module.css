@@ -1,3 +1,11 @@
+.background {
+    background-image: url(../../assets/background.png);
+    background-repeat: no-repeat;
+    background-size: 50vmax;
+    background-position: right;
+
+}
+
 .tambahbuku {
     padding: 4% 50% 0% 12%;
 }

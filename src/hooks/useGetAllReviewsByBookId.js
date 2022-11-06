@@ -1,8 +1,8 @@
-import { useQuery } from "@apollo/client";
-import GetAllReviewsByBookId from "../graphqls/GetAllReviewsByBookId";
+import { useSubscription } from "@apollo/client";
+import SubAllReviewById from "../graphqls/subscription/SubsAllReviewById";
 
 const useGetAllReviewsByBookId = (id_buku) => {
-    const { data: reviewsData, loading: reviewsLoading, error: reviewsError } = useQuery(GetAllReviewsByBookId, {
+    const { data: reviewsData, loading: reviewsLoading, error: reviewsError } = useSubscription(SubAllReviewById, {
         variables: {
             id_buku
         }

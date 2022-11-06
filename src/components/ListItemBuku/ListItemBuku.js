@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'react-bootstrap/Image'
 import { Link } from "react-router-dom"
 import styles from "../ListItemBuku/List.module.css"
 
 const ListItemBuku = (props) => {
     const { id_buku, sampul_buku, judul_buku } = props.data
+    const [kondisi, setKondisi] = useState(false)
 
     return (
         <div className={styles.sampulsatu}>
             <div className={styles.hoversampul}>
-                <div className={styles.iconfavorit}>
+                <div className={`${!kondisi ? styles.iconfavorit : styles.iconclick}`} onClick={() => setKondisi(!kondisi)}>
                     <Image src={require("../../assets/bookmark.png")} alt="box" fluid />
                 </div>
                 <Link to={`/detailbuku/${id_buku}`}>

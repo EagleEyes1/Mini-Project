@@ -31,3 +31,10 @@ p:hover {
     -webkit-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
 }
+
+.iconclick {
+    border-radius: 15px;
+    width: 45px;
+    padding: 8px;
+    position: absolute;
+}

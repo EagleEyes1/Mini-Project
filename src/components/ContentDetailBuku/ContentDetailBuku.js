@@ -15,6 +15,7 @@ import LoadingSvg from '../../assets/LoadingSvg';
 import useGetBookById from '../../hooks/useGetBookById';
 import ListItemReview from '../ListItemReview/ListItemReview';
 import useInsertReview from '../../hooks/useInsertReview';
+import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
 
 const ContentDetailBuku = () => {
     const { id } = useParams()
@@ -22,7 +23,7 @@ const ContentDetailBuku = () => {
     const [state, setState] = useState({
         buku_id: id,
         hasil_review: "",
-        rating: ""
+        rating: 0,
     })
 
     const [countDownload, setCountDownload] = useState(0)
@@ -51,13 +52,24 @@ const ContentDetailBuku = () => {
         })
     }
 
-    const onChange = (e) => {
+    const handleCount = () => {
+        setCountDownload(countDownload + 1)
+    }
+
+    const onChangeReview = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
         })
     }
 
+    const handleChange = (value) => {
+        console.log(value)
+        setState({
+            ...state,
+            rating: value
+        })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -71,25 +83,32 @@ const ContentDetailBuku = () => {
                 hasil_review: "",
                 rating: ""
             })
+            setShow(!show)
         } else {
             alert("Review Ada Yang Masih Belum Diisi")
         }
     }
 
-    console.log(state)
-    if (reviewsLoading || bookLoading || insertLoading) {
+    if (reviewsLoading || bookLoading) {
         return <LoadingSvg />
     }
 
+    if (insertLoading) {
+        return <LoadingDetailSvg />
+    }
+
     if (reviewsError || bookError || insertError) {
-        console.log(reviewsError || bookError)
-        return null
+        console.log(reviewsError || bookError || insertError)
+        return <h1>Error</h1>
     }
 
     return (
         <Container fluid>
-            <Row style={{ padding: "3%" }}>
-                <Col xs={5}>
+            <Row style={{
+                padding: "3%",
+                justifyContent: "center"
+            }}>
+                <Col lg={5} sm={4}>
                     <div className={styles.bloksampul}>
                         <div className={styles.bloktitle}>
                             <h2>
@@ -106,7 +125,7 @@ const ContentDetailBuku = () => {
                         </div>
                     </div>
                 </Col>
-                <Col xs={5}>
+                <Col xs={5} sm={4}>
                     <div className={styles.blokdetailbuku}>
                         <div className={styles.bloksinopsis}>
                             <h4>
@@ -128,7 +147,7 @@ const ContentDetailBuku = () => {
                             </div>
                         </div>
                         <div className={styles.download}>
-                            <div onClick={() => setCountDownload(countDownload + 1)} className={styles.blokdownload}>
+                            <div onClick={handleCount} className={styles.blokdownload}>
                                 Download
                             </div>
                             <div className={styles.blokdownloaded}>
@@ -139,12 +158,12 @@ const ContentDetailBuku = () => {
                 </Col>
             </Row>
             <Row style={{ padding: "2%" }}>
-                <Col xs={6}>
+                <Col lg={6} sm={6}>
                     <div className={styles.userreview}>
                         User Reviews
                     </div>
                 </Col>
-                <Col xs={6}>
+                <Col lg={6} sm={6}>
                     <div onClick={handleShow} className={styles.plusreview}>
                         + Review
                     </div>
@@ -172,6 +191,7 @@ const ContentDetailBuku = () => {
                         <Rate
                             className={styles.star}
                             name='rating'
+                            onChange={handleChange}
                             allowHalf
                             defaultValue={0}
                             style={{ paddingBottom: "20px", paddingLeft: "25px" }} />
@@ -184,7 +204,7 @@ const ContentDetailBuku = () => {
                         <Form.Control
                             style={{ padding: "2em 0em 0em 1em", color: "#ffffff", backgroundColor: "#32B9C4", height: "120px" }}
                             as="textarea"
-                            onChange={onChange}
+                            onChange={onChangeReview}
                             name='hasil_review'
                             value={state.hasil_review}
                             placeholder="Write Your Review Here" />

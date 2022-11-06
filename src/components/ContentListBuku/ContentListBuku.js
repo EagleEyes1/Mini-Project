@@ -6,14 +6,11 @@ import styles from "../ContentListBuku/Content.module.css"
 import ListItemBuku from '../ListItemBuku/ListItemBuku';
 
 const ContentListBuku = (props) => {
-
-
-
     return (
         <Container fluid className={styles.content}>
             <Row>
                 {props.data?.map((item) => (
-                    <Col id="myCol" xs={3} >
+                    <Col id="myCol" lg={3} sm={6} >
                         <ListItemBuku key={item.id_buku} data={item} />
                     </Col>
                 ))}

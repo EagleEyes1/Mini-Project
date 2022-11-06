@@ -95,10 +95,10 @@ const TambahBuku = () => {
 
 
     return (
-        <Container fluid>
+        <Container fluid className={styles.background}>
             <Row >
-                <Col xs={12}>
-                    <div>
+                <Col lg={12} sm={12}>
+                    {/* <div>
                         <img src={require("../../assets/background.png")}
                             alt="box"
                             style={{
@@ -110,7 +110,7 @@ const TambahBuku = () => {
                                 paddingLeft: "1vw",
                                 marginLeft: "1vw"
                             }} />
-                    </div>
+                    </div> */}
                     <Form className={styles.tambahbuku} >
                         <Form.Text style={{
                             paddingLeft: "20px",

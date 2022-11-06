@@ -6,10 +6,13 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import useGetUser from '../../hooks/useGetUser';
 import styles from "../Login/Login.module.css"
 
 const Login = () => {
     const [show, setShow] = useState(false);
+
+    const { validateUser, userData, userLoading, userError } = useGetUser()
 
     const [state, setState] = useState({
         email: "",
@@ -22,6 +25,19 @@ const Login = () => {
             [e.target.name]: e.target.value
         })
     }
+
+    const handleSubmit = async (e) => {
+        await validateUser({
+            variables: {
+                email: state.email,
+                password: state.password
+            }
+        })
+            .then((query) => {
+                console.log(query.data)
+            })
+    }
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -47,10 +63,12 @@ const Login = () => {
                             marginBottom: "1%"
                         }}>
                             <FloatingLabel
-                                controlId="floatingInput"
+                                controlId="Email"
                                 label="Email"
                             >
                                 <Form.Control
+                                    value={state.email}
+                                    onChange={onChange}
                                     name="email"
                                     size="lg"
                                     type="text"
@@ -61,10 +79,12 @@ const Login = () => {
                             marginBottom: "1%"
                         }}>
                             <FloatingLabel
-                                controlId="floatingInput"
+                                controlId="Password"
                                 label="Password"
                             >
                                 <Form.Control
+                                    value={state.password}
+                                    onChange={onChange}
                                     name="password"
                                     size="lg"
                                     type="password"
@@ -73,7 +93,7 @@ const Login = () => {
                         </Form.Group>
                         <Button style={{
                             marginBottom: "1%"
-                        }} variant="light">Login</Button>
+                        }} onClick={handleSubmit} variant="light">Login</Button>
                     </Form>
                 </Col>
             </Row>
