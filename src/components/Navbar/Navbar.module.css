@@ -131,3 +131,20 @@
     justify-content: center;
     width: 100%;
 }
+
+.hasilsearch {
+    padding: 1em;
+    background-color: #00A9B7;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+}
+
+.hasilsearch:hover {
+    background-color: #018792;
+    transition: .8s all ease-in-out;
+}

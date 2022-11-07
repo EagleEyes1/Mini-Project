@@ -5,9 +5,13 @@ import Col from 'react-bootstrap/Col';
 import styles from "../FavoriteList/Favorite.module.css"
 import useSubsAllFavorites from '../../hooks/useSubsAllFavorites';
 import useDeleteFavorite from '../../hooks/useDeleteFavorite';
+import { useSelector } from "react-redux";
+import FavoritListRow from '../FavoritListRow/FavoritListRow';
 
 const FavoriteList = () => {
-    const { favoriteData, favoriteLoading, favoriteError } = useSubsAllFavorites()
+    const userData = useSelector((state) => state.user.userData)
+
+    const { favoriteData, favoriteLoading, favoriteError } = useSubsAllFavorites(userData.user[0].id_user)
 
     const { deleteFavoriteLoading, deleteFavorite } = useDeleteFavorite()
 
@@ -56,126 +60,9 @@ const FavoriteList = () => {
                     </div>
                 </Col>
             </Row>
-            <Row className={styles.barisfavorit}>
-                <Col xs={3}>
-                    <div>
-                        <img src={require("../../assets/sampul.jpg")} alt="box"
-                            style={{
-                                width: "40%",
-                                height: "auto",
-                                borderRadius: "20px"
-                            }} />
-                    </div>
-                </Col>
-                <Col xs={4}>
-                    <div>
-                        Misteri Cinta Guru Honorer
-                    </div>
-                </Col>
-                <Col xs={3}>
-                    <div style={{ display: "flex" }}>
-                        <img src={require("../../assets/starfull.png")}
-                            alt="box"
-                            style={{
-                                width: "15%",
-                                height: "auto",
-                                paddingRight: "10px"
-                            }} />
-                        <div style={{ marginLeft: "10px" }}>4/5</div>
-                    </div>
-                </Col>
-                <Col xs={2}>
-                    <div onClick={() => { }}>
-                        <img src={require("../../assets/deleteblack.png")}
-                            alt="box"
-                            style={{
-                                width: "20%",
-                                height: "auto",
-                                marginLeft: "8px"
-                            }} />
-                    </div>
-                </Col>
-            </Row>
-            <Row className={styles.barisfavorit}>
-                <Col xs={3}>
-                    <div>
-                        <img src={require("../../assets/sampul.jpg")} alt="box"
-                            style={{
-                                width: "40%",
-                                height: "auto",
-                                borderRadius: "20px"
-                            }} />
-                    </div>
-                </Col>
-                <Col xs={4}>
-                    <div>
-                        Misteri Cinta Guru Honorer
-                    </div>
-                </Col>
-                <Col xs={3}>
-                    <div style={{ display: "flex" }}>
-                        <img src={require("../../assets/starfull.png")}
-                            alt="box"
-                            style={{
-                                width: "15%",
-                                height: "auto",
-                                paddingRight: "10px"
-                            }} />
-                        <div style={{ marginLeft: "10px" }}>4/5</div>
-                    </div>
-                </Col>
-                <Col xs={2}>
-                    <div>
-                        <img src={require("../../assets/deleteblack.png")}
-                            alt="box"
-                            style={{
-                                width: "20%",
-                                height: "auto",
-                                marginLeft: "8px"
-                            }} />
-                    </div>
-                </Col>
-            </Row>
-            <Row className={styles.barisfavorit}>
-                <Col xs={3}>
-                    <div>
-                        <img src={require("../../assets/sampul.jpg")} alt="box"
-                            style={{
-                                width: "40%",
-                                height: "auto",
-                                borderRadius: "20px"
-                            }} />
-                    </div>
-                </Col>
-                <Col xs={4}>
-                    <div>
-                        Misteri Cinta Guru Honorer
-                    </div>
-                </Col>
-                <Col xs={3}>
-                    <div style={{ display: "flex" }}>
-                        <img src={require("../../assets/starfull.png")}
-                            alt="box"
-                            style={{
-                                width: "15%",
-                                height: "auto",
-                                paddingRight: "10px"
-                            }} />
-                        <div style={{ marginLeft: "10px" }}>4/5</div>
-                    </div>
-                </Col>
-                <Col xs={2}>
-                    <div>
-                        <img src={require("../../assets/deleteblack.png")}
-                            alt="box"
-                            style={{
-                                width: "20%",
-                                height: "auto",
-                                marginLeft: "8px"
-                            }} />
-                    </div>
-                </Col>
-            </Row>
+            {favoriteData?.favorit.map((item) => (
+                <FavoritListRow key={item.id_favorit} data={item} />
+            ))}
         </Container>
     )
 }

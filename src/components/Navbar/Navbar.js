@@ -6,10 +6,9 @@ import Col from 'react-bootstrap/Col';
 import { useNavigate, Link } from "react-router-dom"
 import styles from "../Navbar/Navbar.module.css"
 import useSearchBooks from '../../hooks/useSearchBooks';
-import Table from 'react-bootstrap/Table';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
 import Image from 'react-bootstrap/Image'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/userSlice"
 
 const Navbar = (props) => {
@@ -21,7 +20,7 @@ const Navbar = (props) => {
 
     const dispatch = useDispatch()
 
-
+    const userData = useSelector((state) => state.user.userData)
 
     const [searchValue, setSearchValue] = useState("")
 
@@ -126,10 +125,15 @@ const Navbar = (props) => {
                 }}>
                     <Col lg={4} sm={1}>
                         <div className={`${styles.detail} ${!kondisi ? styles.hidden : ''}`} onMouseLeave={handleTutupAccount} onMouseEnter={handleBukaAccount}>
-                            {/* <div onClick={handleTutupAccount} style={openMode} className={styles.back4}>
-                                <img src={require("../../assets/account.png")} alt="box" style={{ width: "100%", height: "auto" }} />
-                            </div> */}
                             <div className={styles.accdetail}>
+                                <div style={{
+                                    color: "#ffffff",
+                                    textAlign: "center",
+                                    backgroundColor: "#018792",
+                                    marginBottom: "10px"
+                                }}>
+                                    Log-In sebagai {userData.user[0].display_name}
+                                </div>
                                 <div onClick={toTambah} className={styles.tambahbuku}>
                                     <div className={styles.iconbuku}>
                                         <Image src={require("../../assets/book.png")} alt="box" fluid />
@@ -170,27 +174,22 @@ const Navbar = (props) => {
                                     }}>
                                         <Link to={`/detailbuku/${item.id_buku}`} onClick={handleTutupSearch}>
                                             <div
-                                                style={{
-                                                    padding: "1em",
-                                                    backgroundColor: "#00A9B7",
-                                                    borderRadius: "10px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    color: "#ffffff",
-
-                                                }}>
+                                                className={styles.hasilsearch}>
                                                 <span>
                                                     {index + 1}
                                                 </span>
                                                 <span style={{
-                                                    width: "70px"
+                                                    width: "70px",
+                                                    textAlign: "center",
+                                                    paddingLeft: "80px"
                                                 }}>
                                                     <img src={item.sampul_buku} alt="box" style={{ width: "50px", height: "auto" }} />
                                                 </span>
                                                 <span style={{
                                                     fontSize: "larger",
-
-                                                    fontWeight: "bolder"
+                                                    textAlign: "center",
+                                                    fontWeight: "bolder",
+                                                    paddingLeft: "120px"
                                                 }}>
                                                     {item.judul_buku}
                                                 </span>

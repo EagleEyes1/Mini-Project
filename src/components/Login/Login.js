@@ -43,9 +43,13 @@ const Login = () => {
             }
         })
             .then((query) => {
-                console.log(query.data)
-                dispatch(signIn(query.data))
-                navigate("/")
+                console.log(query.data.user)
+                if (query.data.user === []) {
+                    dispatch(signIn(query.data))
+                    navigate("/")
+                } else {
+                    handleShow()
+                }
             })
     }
 
@@ -85,8 +89,10 @@ const Login = () => {
                                     onChange={onChange}
                                     name="email"
                                     size="lg"
-                                    type="text"
-                                    placeholder="Email" />
+                                    type="email"
+                                    placeholder="Email"
+                                    required
+                                />
                             </FloatingLabel>
                         </Form.Group>
                         <Form.Group style={{
@@ -102,7 +108,9 @@ const Login = () => {
                                     name="password"
                                     size="lg"
                                     type="password"
-                                    placeholder="Password" />
+                                    placeholder="Password"
+                                    required
+                                />
                             </FloatingLabel>
                         </Form.Group>
                         <Button style={{
@@ -117,10 +125,10 @@ const Login = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>Peringatan</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Data Inputan Masih Ada Yang Kosong</Modal.Body>
+                <Modal.Body>Email Atau Password Salah</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Tutup
                     </Button>
                 </Modal.Footer>
             </Modal>
