@@ -9,6 +9,8 @@ import useSearchBooks from '../../hooks/useSearchBooks';
 import Table from 'react-bootstrap/Table';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
 import Image from 'react-bootstrap/Image'
+import { useDispatch } from "react-redux";
+import { logOut } from "../../store/userSlice"
 
 const Navbar = (props) => {
     const [kondisi, setKondisi] = useState(false)
@@ -16,6 +18,10 @@ const Navbar = (props) => {
     const [kondisiSearch, setKondisiSearch] = useState(false)
 
     const { searchBook, searchData, searchLoading, searchError } = useSearchBooks()
+
+    const dispatch = useDispatch()
+
+
 
     const [searchValue, setSearchValue] = useState("")
 
@@ -40,6 +46,11 @@ const Navbar = (props) => {
     const navigate = useNavigate();
     const toHome = () => {
         navigate("/")
+    }
+
+    const signOut = () => {
+        dispatch(logOut)
+        navigate("/login")
     }
 
     const toTambah = () => {
@@ -134,7 +145,7 @@ const Navbar = (props) => {
                                     <div className={styles.iconbuku}>
                                         <img src={require("../../assets/logout.png")} alt="box" style={{ width: "100%", height: "auto" }} />
                                     </div>
-                                    <div style={{ color: "#ffffff", fontSize: "18px", paddingLeft: "10px" }}>
+                                    <div onClick={signOut} style={{ color: "#ffffff", fontSize: "18px", paddingLeft: "10px" }}>
                                         LOGOUT
                                     </div>
                                 </div>
@@ -152,51 +163,42 @@ const Navbar = (props) => {
                         borderRadius: "10px",
                     }}>
                         <div className={`${styles.detail} ${!kondisiSearch ? styles.hidden : ''}`} onMouseEnter={handleBukaSearch}>
-                            <Table className={styles.table} onMouseLeave={handleTutupSearch}>
+                            <ul className={styles.table} onMouseLeave={handleTutupSearch}>
                                 {searchData?.buku.map((item, index) => {
-                                    return <tbody style={{
+                                    return <li style={{
                                         width: "100%"
                                     }}>
-                                        <Link to={`/detailbuku/${item.id_buku}`} style={{
-                                            height: "100%",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                        }} onClick={handleTutupSearch}><tr
-                                            style={{
+                                        <Link to={`/detailbuku/${item.id_buku}`} onClick={handleTutupSearch}>
+                                            <div
+                                                style={{
+                                                    padding: "1em",
+                                                    backgroundColor: "#00A9B7",
+                                                    borderRadius: "10px",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    color: "#ffffff",
 
-                                                padding: "7%",
-                                                backgroundColor: "#00A9B7",
-                                                borderRadius: "10px",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                color: "#ffffff",
-
-                                            }}>
-                                                <td style={{
-                                                    fontSize: "larger",
-                                                    textAlign: "center",
-                                                    fontWeight: "bolder"
                                                 }}>
+                                                <span>
                                                     {index + 1}
-                                                </td>
-                                                <td style={{
+                                                </span>
+                                                <span style={{
                                                     width: "70px"
                                                 }}>
-                                                    <img src={item.sampul_buku} alt="box" style={{ width: "100%", height: "auto" }} />
-                                                </td>
-                                                <td style={{
+                                                    <img src={item.sampul_buku} alt="box" style={{ width: "50px", height: "auto" }} />
+                                                </span>
+                                                <span style={{
                                                     fontSize: "larger",
 
                                                     fontWeight: "bolder"
                                                 }}>
                                                     {item.judul_buku}
-                                                </td>
-                                            </tr>
+                                                </span>
+                                            </div>
                                         </Link>
-                                    </tbody>
+                                    </li>
                                 })}
-                            </Table>
+                            </ul>
                         </div>
                     </Col>
                 </Row>

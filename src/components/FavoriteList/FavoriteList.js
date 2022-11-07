@@ -3,8 +3,24 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styles from "../FavoriteList/Favorite.module.css"
+import useSubsAllFavorites from '../../hooks/useSubsAllFavorites';
+import useDeleteFavorite from '../../hooks/useDeleteFavorite';
 
 const FavoriteList = () => {
+    const { favoriteData, favoriteLoading, favoriteError } = useSubsAllFavorites()
+
+    const { deleteFavoriteLoading, deleteFavorite } = useDeleteFavorite()
+
+    const deleteOldFavorite = (idx) => {
+        deleteFavorite({
+            variables: {
+                id_favorit: idx,
+            }
+        })
+    }
+
+    console.log(favoriteData)
+
     return (
         <Container fluid>
             <Row style={{ padding: "3% 3% 0% 8%" }}>
@@ -69,7 +85,7 @@ const FavoriteList = () => {
                     </div>
                 </Col>
                 <Col xs={2}>
-                    <div>
+                    <div onClick={() => { }}>
                         <img src={require("../../assets/deleteblack.png")}
                             alt="box"
                             style={{

@@ -9,6 +9,7 @@ import styles from "../ListItemReview/ListReview.module.css"
 import useUpdateReview from '../../hooks/useUpdateReview';
 import useDeleteReview from '../../hooks/useDeleteReview';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg'
+import { useSelector } from "react-redux";
 
 const ListItemReview = (props) => {
     const { id_review, nama_reviewer, hasil_review, rating } = props.data
@@ -18,6 +19,8 @@ const ListItemReview = (props) => {
         hasil_review: hasil_review,
         rating: rating,
     })
+
+    const userData = useSelector((state) => state.user.userData)
 
     const [editShow, setEditShow] = useState(false);
 

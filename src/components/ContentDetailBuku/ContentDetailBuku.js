@@ -16,15 +16,19 @@ import useGetBookById from '../../hooks/useGetBookById';
 import ListItemReview from '../ListItemReview/ListItemReview';
 import useInsertReview from '../../hooks/useInsertReview';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
+import { useSelector } from "react-redux";
 
 const ContentDetailBuku = () => {
     const { id } = useParams()
 
     const [state, setState] = useState({
         buku_id: id,
+        nama_reviewer: "",
         hasil_review: "",
         rating: 0,
     })
+
+    const userData = useSelector((state) => state.user.userData)
 
     const [countDownload, setCountDownload] = useState(0)
 
@@ -46,6 +50,7 @@ const ContentDetailBuku = () => {
         insertNewReview({
             variables: {
                 buku_id: id,
+                nama_reviewer: userData.user[0].display_name,
                 hasil_review: newData.hasil_review,
                 rating: newData.rating
             }
@@ -64,7 +69,6 @@ const ContentDetailBuku = () => {
     }
 
     const handleChange = (value) => {
-        console.log(value)
         setState({
             ...state,
             rating: value

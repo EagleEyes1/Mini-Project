@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 
 const GetAllBooks = gql`
-query QueryGet {
-    buku {
+query QueryGet($limit: Int!, $offset: Int!) {
+    buku(limit: $limit, offset: $offset) {
         id_buku
         judul_buku
         pengarang
@@ -17,3 +17,4 @@ query QueryGet {
 `
 
 export default GetAllBooks
+

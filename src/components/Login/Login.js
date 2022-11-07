@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,16 +8,25 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import useGetUser from '../../hooks/useGetUser';
 import styles from "../Login/Login.module.css"
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../../store/userSlice"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
     const [show, setShow] = useState(false);
 
-    const { validateUser, userData, userLoading, userError } = useGetUser()
+    const { validateUser, userLoading, userError } = useGetUser()
+
+    const dispatch = useDispatch()
+
+    const userData = useSelector((state) => state.user.userData)
 
     const [state, setState] = useState({
         email: "",
         password: "",
     })
+
+    const navigate = useNavigate();
 
     const onChange = (e) => {
         setState({
@@ -35,9 +44,14 @@ const Login = () => {
         })
             .then((query) => {
                 console.log(query.data)
+                dispatch(signIn(query.data))
+                navigate("/")
             })
     }
 
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
