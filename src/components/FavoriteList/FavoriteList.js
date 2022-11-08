@@ -7,6 +7,7 @@ import useSubsAllFavorites from '../../hooks/useSubsAllFavorites';
 import useDeleteFavorite from '../../hooks/useDeleteFavorite';
 import { useSelector } from "react-redux";
 import FavoritListRow from '../FavoritListRow/FavoritListRow';
+import LoadingSvg from '../../assets/LoadingSvg';
 
 const FavoriteList = () => {
     const userData = useSelector((state) => state.user.userData)
@@ -24,6 +25,15 @@ const FavoriteList = () => {
     }
 
     console.log(favoriteData)
+
+    if (favoriteLoading) {
+        return <LoadingSvg />
+    }
+
+    if (favoriteError) {
+        console.log(favoriteError)
+        return null
+    }
 
     return (
         <Container fluid>

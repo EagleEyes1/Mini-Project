@@ -11,7 +11,9 @@ const SetupRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
+                {/* Home Route */}
                 <Route path='/login' element={<HomeRoutes />} />
+                {/* Protected Route */}
                 <Route path='/' element={<ProtectedRoute />}>
                     <Route index element={<Home />} />
                     <Route path="/detailbuku/:id" element={<DetailBuku />} />

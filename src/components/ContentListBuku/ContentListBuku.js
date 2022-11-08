@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 import styles from "../ContentListBuku/Content.module.css"
 import ListItemBuku from '../ListItemBuku/ListItemBuku';
 import { useQuery } from "@apollo/client";
+import { useSelector } from "react-redux";
 import GetAllBooks from '../../graphqls/GetAllBooks';
 import LoadingSvg from '../../assets/LoadingSvg';
 
@@ -13,13 +14,20 @@ const PAGE_SIZE = 8;
 const ContentListBuku = () => {
     const [page, setPage] = useState(0)
 
+    const totalPage = page + 1
+
+    const userData = useSelector((state) => state.user.userData)
+
     const { data: booksData, loading: booksLoading, error: booksError } = useQuery(GetAllBooks, {
         variables: {
             limit: PAGE_SIZE,
-            offset: page * PAGE_SIZE
+            offset: page * PAGE_SIZE,
+            id_user: userData.user[0].id_user,
         }
     })
-    // console.log(booksData)
+    console.log(booksData)
+
+    // console.log(userData)
 
 
 
@@ -29,7 +37,7 @@ const ContentListBuku = () => {
 
     if (booksError) {
         console.log(booksError)
-        return null
+        return <h1>Error</h1>
     }
     return (
         <Container fluid className={styles.content}>
@@ -43,7 +51,7 @@ const ContentListBuku = () => {
             <Row style={{ paddingTop: "2%" }}>
                 <Col xs={6}>
                     <div>
-                        <p style={{ padding: "2% 0% 0% 9%" }}>Page {page + 1} of {page}</p>
+                        <p style={{ padding: "2% 0% 0% 9%" }}>Halaman {page + 1} dari {totalPage}</p>
                     </div>
                 </Col>
                 <Col xs={6} >

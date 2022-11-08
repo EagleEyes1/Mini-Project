@@ -13,6 +13,7 @@ query GetQueryById($id_buku: Int!) {
     download
     sinopsis
     total_rating
+    file
   }
 }
 `

@@ -78,6 +78,14 @@
     transition: all .5s ease-in-out;
 }
 
+.adownload {
+    color: #ffffff
+}
+
+.adownload:hover {
+    color: #00A9B7;
+}
+
 .blokdownloaded {
     font-size: small;
     text-align: center;

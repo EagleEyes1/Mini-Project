@@ -5,6 +5,7 @@ subscription SubscriptionFavorites($id_user: Int) {
     favorit(where: {user_id: {_eq: $id_user}}) {
       id_favorit
       id_buku_favorit
+      isFavorit
       userid {
         id_user
         display_name

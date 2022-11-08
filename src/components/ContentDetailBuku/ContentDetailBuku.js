@@ -30,11 +30,17 @@ const ContentDetailBuku = () => {
 
     const userData = useSelector((state) => state.user.userData)
 
-    const [countDownload, setCountDownload] = useState(0)
+    // const [countDownload, setCountDownload] = useState(0)
 
     const { reviewsData, reviewsLoading, reviewsError } = useGetAllReviewsByBookId(id)
 
     const { bookData, bookLoading, bookError } = useGetBookById(id)
+
+    const ratingTotal = reviewsData?.review?.reduce((acc, item) => item.rating + acc, 0)
+
+    const totalRatingValue = ratingTotal / reviewsData?.review?.length
+
+    // console.log(totalRatingValue)
 
     const [show, setShow] = useState(false);
 
@@ -58,7 +64,7 @@ const ContentDetailBuku = () => {
     }
 
     const handleCount = () => {
-        setCountDownload(countDownload + 1)
+        return bookData?.buku_by_pk.download + 1
     }
 
     const onChangeReview = (e) => {
@@ -133,7 +139,7 @@ const ContentDetailBuku = () => {
                     <div className={styles.blokdetailbuku}>
                         <div className={styles.bloksinopsis}>
                             <h4>
-                                Synopsis
+                                Sinopsis
                             </h4>
                         </div>
                         <div className={styles.bloktulissinopsis}>
@@ -147,15 +153,21 @@ const ContentDetailBuku = () => {
                                 <Rate
                                     className={styles.startotal}
                                     disabled
-                                    defaultValue={4} />
+                                    defaultValue={totalRatingValue} />
                             </div>
                         </div>
                         <div className={styles.download}>
                             <div onClick={handleCount} className={styles.blokdownload}>
-                                Download
+                                <a
+                                    className={styles.adownload}
+                                    href={bookData?.buku_by_pk.sampul_buku}
+                                    download={bookData?.buku_by_pk.judul_buku}
+                                >
+                                    Download
+                                </a>
                             </div>
                             <div className={styles.blokdownloaded}>
-                                {countDownload} Downloaded
+                                {bookData?.buku_by_pk.download} Downloaded
                             </div>
                         </div>
                     </div>

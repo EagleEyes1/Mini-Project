@@ -13,7 +13,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
     createClient({
-        url: "ws://notable-ape-68.hasura.app/v1/graphql",
+        url: "wss://notable-ape-68.hasura.app/v1/graphql",
         connectionParams: {
             headers: {
                 "x-hasura-admin-secret": "XiwjP2Xxcut6UXbKj4LhRM0E6vIWRZmSEHdceQ9uALEv2IxKe2mOl5Nj7uAvaGMj",
