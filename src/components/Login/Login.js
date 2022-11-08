@@ -11,6 +11,7 @@ import styles from "../Login/Login.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../store/userSlice"
 import { useNavigate } from "react-router-dom"
+import { Auth } from '../../utils/Auth';
 
 const Login = () => {
     const [show, setShow] = useState(false);
@@ -44,8 +45,9 @@ const Login = () => {
         })
             .then((query) => {
                 console.log(query.data.user)
-                if (query.data.user === []) {
+                if (query.data.user.length !== 0) {
                     dispatch(signIn(query.data))
+                    Auth.storeUserInfoToCookie(query.data)
                     navigate("/")
                 } else {
                     handleShow()

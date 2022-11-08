@@ -4,17 +4,20 @@ import Home from '../pages/Home'
 import DetailBuku from '../pages/DetailBuku'
 import TambahBukus from '../pages/TambahBukus'
 import Favorites from '../pages/Favorites'
-import Logins from '../pages/Logins'
+import ProtectedRoute from './ProtectedRoute'
+import HomeRoutes from './HomeRoutes'
 
 const SetupRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/detailbuku/:id" element={<DetailBuku />} />
-                <Route path="/tambahbuku" element={<TambahBukus />} />
-                <Route path="/favorites" element={<Favorites />} />
-                <Route path='/login' element={<Logins />} />
+                <Route path='/login' element={<HomeRoutes />} />
+                <Route path='/' element={<ProtectedRoute />}>
+                    <Route index element={<Home />} />
+                    <Route path="/detailbuku/:id" element={<DetailBuku />} />
+                    <Route path="/tambahbuku" element={<TambahBukus />} />
+                    <Route path="/favorites" element={<Favorites />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     )

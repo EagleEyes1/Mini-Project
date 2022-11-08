@@ -10,6 +10,7 @@ import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
 import Image from 'react-bootstrap/Image'
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/userSlice"
+import { Auth } from '../../utils/Auth';
 
 const Navbar = (props) => {
     const [kondisi, setKondisi] = useState(false)
@@ -49,6 +50,7 @@ const Navbar = (props) => {
 
     const signOut = () => {
         dispatch(logOut)
+        Auth.signOut()
         navigate("/login")
     }
 
