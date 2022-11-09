@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,8 +7,12 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import styles from "../TambahBuku/Tambah.module.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { storage } from "../../firebase/firebase"
+import { getDownloadURL, uploadBytes, ref } from "firebase/storage"
 import LoadingSvg from '../../assets/LoadingSvg';
+import { useNavigate } from "react-router-dom"
 import useInsertBook from '../../hooks/useInsertBook';
+import { uuidv4 } from "@firebase/util"
 
 const TambahBuku = () => {
     const [state, setState] = useState({
@@ -17,7 +21,7 @@ const TambahBuku = () => {
         publisher: "",
         pages: "",
         edition: "",
-        file: null,
+        file: "",
         synopsis: "",
     })
 
@@ -26,24 +30,11 @@ const TambahBuku = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const { insertNewBook, insertBookLoading, insertBookError } = useInsertBook()
+    const image = useRef(null)
 
-    const addBook = (newBook) => {
-        const newData = {
-            ...newBook
-        }
-        insertNewBook({
-            variables: {
-                judul_buku: newData.title,
-                pengarang: newData.author,
-                penerbit: newData.publisher,
-                tebal_buku: newData.pages,
-                cetakan: newData.edition,
-                sampul_buku: newData.file,
-                sinopsis: newData.synopsis,
-            }
-        })
-    }
+    const navigate = useNavigate();
+
+    const { insertNewBook, insertBookLoading, insertBookError } = useInsertBook()
 
     const onChange = (e) => {
         setState({
@@ -52,36 +43,57 @@ const TambahBuku = () => {
         })
     }
 
-    const handleSubmit = (e) => {
-        if (state.title &&
-            state.author &&
-            state.publisher &&
-            state.pages &&
-            state.edition &&
-            state.file &&
-            state.synopsis) {
-            const newData = {
-                title: state.title,
-                author: state.author,
-                publisher: state.publisher,
-                pages: state.pages,
-                edition: state.edition,
-                file: state.file,
-                synopsis: state.synopsis
-            }
-            addBook(newData)
-            setState({
-                title: "",
-                author: "",
-                publisher: "",
-                pages: "",
-                edition: "",
-                file: null,
-                synopsis: "",
-            })
-        } else {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        // if (image === null) alert("anda belum memasukan gambar")
+        // console.log(nama_ketua.current?.value.length < 1 ? "kosong" : nama_ketua.current?.value)
+
+        if (state.title === "" ||
+            state.author === "" ||
+            state.publisher === "" ||
+            state.pages === "" ||
+            state.edition === "" ||
+            image === null ||
+            state.synopsis === "") {
             handleShow()
         }
+
+        const metadata = {
+            contentType: image?.current?.files[0].type,
+            firebaseStorageDownloadTokens: uuidv4() //In this line you are adding the access token
+        };
+
+        const inputImage = image.current?.files[0]
+        const fileName = image.current?.files[0].name
+        const imageRef = ref(storage, fileName)
+        // console.log(inputImage)
+
+        await uploadBytes(imageRef, inputImage, metadata).then(() => {
+            getDownloadURL(imageRef).then((url) => {
+                insertNewBook({
+                    variables: {
+                        judul_buku: state.title,
+                        pengarang: state.author,
+                        penerbit: state.publisher,
+                        tebal_buku: state.pages,
+                        cetakan: state.edition,
+                        sampul_buku: url,
+                        sinopsis: state.synopsis,
+                    }
+                })
+                navigate("/")
+
+            }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+        setState({
+            title: "",
+            author: "",
+            publisher: "",
+            pages: "",
+            edition: "",
+            file: "",
+            synopsis: "",
+        })
     }
 
     if (insertBookLoading) {
@@ -94,23 +106,11 @@ const TambahBuku = () => {
     }
 
 
+
     return (
         <Container fluid className={styles.background}>
             <Row >
                 <Col lg={12} sm={12}>
-                    {/* <div>
-                        <img src={require("../../assets/background.png")}
-                            alt="box"
-                            style={{
-                                width: "35%",
-                                maxHeight: "100vh",
-                                marginTop: "-10vh",
-                                right: "0vw",
-                                float: "right",
-                                paddingLeft: "1vw",
-                                marginLeft: "1vw"
-                            }} />
-                    </div> */}
                     <Form className={styles.tambahbuku} >
                         <Form.Text style={{
                             paddingLeft: "20px",
@@ -126,10 +126,12 @@ const TambahBuku = () => {
                                 label="Title"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="title"
                                     size="lg"
                                     style={{ padding: "0em 1em" }}
                                     type="text"
+                                    // required
                                     placeholder="Title" />
                             </FloatingLabel>
                             <FloatingLabel
@@ -137,8 +139,10 @@ const TambahBuku = () => {
                                 label="Author"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="author"
                                     size="lg"
+                                    // required
                                     style={{ padding: "0em 1em" }}
                                     type="text"
                                     placeholder="Author" />
@@ -150,8 +154,10 @@ const TambahBuku = () => {
                                 label="Publisher"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="publisher"
                                     size="lg"
+                                    // required
                                     style={{ padding: "0em 1em" }}
                                     type="text"
                                     placeholder="Publisher" />
@@ -161,8 +167,10 @@ const TambahBuku = () => {
                                 label="Pages"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="pages"
                                     size="lg"
+                                    // required
                                     style={{ padding: "0em 1em" }}
                                     type="text"
                                     placeholder="Pages" />
@@ -174,8 +182,10 @@ const TambahBuku = () => {
                                 label="Edition"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="edition"
                                     size="lg"
+                                    // required
                                     style={{ padding: "0em 3em 0em 1em" }}
                                     type="text"
                                     placeholder="Edition" />
@@ -192,6 +202,8 @@ const TambahBuku = () => {
                                     marginLeft: "7px",
                                 }}
                                 type="file"
+                                ref={image}
+                                // required
                                 placeholder="File" />
                         </Form.Group>
                         <Form.Group className={styles.blokbukuempat}>
@@ -200,7 +212,9 @@ const TambahBuku = () => {
                                 label="Synopsis"
                             >
                                 <Form.Control
+                                    onChange={onChange}
                                     name="synopsis"
+                                    // required
                                     style={{ padding: "2em 0em 0em 1em", height: "120px" }}
                                     as="textarea"
                                     placeholder="Synopsis" />

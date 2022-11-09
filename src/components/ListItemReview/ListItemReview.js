@@ -10,15 +10,26 @@ import useUpdateReview from '../../hooks/useUpdateReview';
 import useDeleteReview from '../../hooks/useDeleteReview';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg'
 import { useSelector } from "react-redux";
+import useIsEditReview from '../../hooks/useIsEditReview';
+import { useParams } from 'react-router-dom';
 
 const ListItemReview = (props) => {
     const { id_review, nama_reviewer, hasil_review, rating } = props.data
+
+    const { id } = useParams()
+
+    console.log(props.data)
+
+    const { IsEditData, IsEditLoading, IsEditError } = useIsEditReview(id, nama_reviewer)
+
+    console.log(IsEditData)
 
     const [state, setState] = useState({
         id_review: id_review,
         hasil_review: hasil_review,
         rating: rating,
     })
+
 
     const userData = useSelector((state) => state.user.userData)
 
@@ -79,7 +90,7 @@ const ListItemReview = (props) => {
             <Row style={{ padding: "2%" }}>
                 <Col lg={12} sm={12}>
                     <div className={styles.hasilreview}>
-                        <div className={styles.reviewicon}>
+                        <div className={`${IsEditData?.review[0]?.nama_reviewer != userData.user[0].display_name ? styles.hidden : styles.reviewicon}`}>
                             <div onClick={handleEditShow} className={styles.iconedit}>
                                 <img src={require("../../assets/edit.png")}
                                     alt="box"

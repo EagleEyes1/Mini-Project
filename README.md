@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Eagle's Library
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Eagle's Library adalah sebuah website perpustakaan yang dirancang dengan UI yang menarik. Website ini dilengkapi dengan fitur fitur seperti,
+* Search Bar
+* Pagination
+* Review Buku
+* Download secara gratis
 
 ## Available Scripts
 

@@ -10,6 +10,8 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.24.0",
     "bootstrap": "^5.2.2",
+    "file-saver": "^2.0.5",
+    "firebase": "^9.13.0",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.11.2",
     "js-cookie": "^3.0.1",

@@ -123,6 +123,7 @@ const Login = () => {
             </Row>
             <Modal
                 show={show}
+                size="sm"
                 onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Peringatan</Modal.Title>

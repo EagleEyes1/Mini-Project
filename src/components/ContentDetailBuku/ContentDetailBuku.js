@@ -16,6 +16,7 @@ import useGetBookById from '../../hooks/useGetBookById';
 import ListItemReview from '../ListItemReview/ListItemReview';
 import useInsertReview from '../../hooks/useInsertReview';
 import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
+import { saveAs } from 'file-saver'
 import { useSelector } from "react-redux";
 
 const ContentDetailBuku = () => {
@@ -30,8 +31,6 @@ const ContentDetailBuku = () => {
 
     const userData = useSelector((state) => state.user.userData)
 
-    // const [countDownload, setCountDownload] = useState(0)
-
     const { reviewsData, reviewsLoading, reviewsError } = useGetAllReviewsByBookId(id)
 
     const { bookData, bookLoading, bookError } = useGetBookById(id)
@@ -39,8 +38,6 @@ const ContentDetailBuku = () => {
     const ratingTotal = reviewsData?.review?.reduce((acc, item) => item.rating + acc, 0)
 
     const totalRatingValue = ratingTotal / reviewsData?.review?.length
-
-    // console.log(totalRatingValue)
 
     const [show, setShow] = useState(false);
 
@@ -63,8 +60,8 @@ const ContentDetailBuku = () => {
         })
     }
 
-    const handleCount = () => {
-        return bookData?.buku_by_pk.download + 1
+    const handleDownload = (e) => {
+        saveAs(bookData?.buku_by_pk.sampul_buku)
     }
 
     const onChangeReview = (e) => {
@@ -157,14 +154,8 @@ const ContentDetailBuku = () => {
                             </div>
                         </div>
                         <div className={styles.download}>
-                            <div onClick={handleCount} className={styles.blokdownload}>
-                                <a
-                                    className={styles.adownload}
-                                    href={bookData?.buku_by_pk.sampul_buku}
-                                    download={bookData?.buku_by_pk.judul_buku}
-                                >
-                                    Download
-                                </a>
+                            <div onClick={() => handleDownload()} className={styles.blokdownload}>
+                                Download
                             </div>
                             <div className={styles.blokdownloaded}>
                                 {bookData?.buku_by_pk.download} Downloaded

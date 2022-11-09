@@ -11,6 +11,8 @@ import LoadingDetailSvg from '../../assets/LoadingDetailSvg';
 const FavoritListRow = (props) => {
     const { judul_buku, sampul_buku, total_rating } = props.data.bukufavorit
 
+    console.log(props.data.bukufavorit)
+
     const { id_favorit } = props.data
 
     // console.log(props.data)
