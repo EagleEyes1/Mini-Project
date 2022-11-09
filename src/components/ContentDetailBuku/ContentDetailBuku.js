@@ -61,7 +61,7 @@ const ContentDetailBuku = () => {
     }
 
     const handleDownload = (e) => {
-        saveAs(bookData?.buku_by_pk.sampul_buku)
+        saveAs(bookData?.buku_by_pk.file)
     }
 
     const onChangeReview = (e) => {
